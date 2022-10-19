@@ -21,17 +21,9 @@ public class MemberService {
      */
     public Long join(Member member){
 
-        long start = System.currentTimeMillis();
-
-        try{
             validateDuplicateMember(member); //중복 회원 검증
             memberRepository.save(member);
             return member.getId();
-        }finally {
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("join = " + timeMs + "ms");
-        }
 
         //같은 이름이 있는 중복 회원X
 //        Optional<Member> result = memberRepository.findByName(member.getName()); //꺼낸 값이 null 일 가능성이 있으면 optional로 감싸서 빼주고 덕분에 하위가 가능함.
@@ -58,15 +50,8 @@ public class MemberService {
      */
     public List<Member> findMembers(){
 
-        long start = System.currentTimeMillis();
-
-        try{
             return memberRepository.findAll();
-        }finally {
-            long finish = System.currentTimeMillis();
-            long timeMs = finish - start;
-            System.out.println("join = " + timeMs + "ms");
-        }
+
     }
 
     public Optional<Member> findOne(Long memberId){
