@@ -20,6 +20,19 @@ public class MemberService {
      * 회원 가입
      */
     public Long join(Member member){
+
+        long start = System.currentTimeMillis();
+
+        try{
+            validateDuplicateMember(member); //중복 회원 검증
+            memberRepository.save(member);
+            return member.getId();
+        }finally {
+            long finish = System.currentTimeMillis();
+            long timeMs = finish - start;
+            System.out.println("join = " + timeMs + "ms");
+        }
+
         //같은 이름이 있는 중복 회원X
 //        Optional<Member> result = memberRepository.findByName(member.getName()); //꺼낸 값이 null 일 가능성이 있으면 optional로 감싸서 빼주고 덕분에 하위가 가능함.
 //        result.ifPresent(m -> { //ifPresent == result가 값이 있으면(Optional이기 때문에 가능)
@@ -27,10 +40,10 @@ public class MemberService {
 //        });
 //        Member member1 = result.get(); //그냥 꺼내고 싶으면 이렇게 해도 상관은 없는데 권장하지 X
 //        result.orElseGet(); //값이 있으면 꺼내고 없으면 뭔가 실행하거나 기본값을 실행하라는 말.
-        validateDuplicateMember(member); //중복 회원 검증
-
-        memberRepository.save(member);
-        return member.getId();
+//        validateDuplicateMember(member); //중복 회원 검증
+//
+//        memberRepository.save(member);
+//        return member.getId();
     }
 
     private void validateDuplicateMember(Member member) {
@@ -44,7 +57,16 @@ public class MemberService {
      * 전체 회원 조회
      */
     public List<Member> findMembers(){
-        return memberRepository.findAll();
+
+        long start = System.currentTimeMillis();
+
+        try{
+            return memberRepository.findAll();
+        }finally {
+            long finish = System.currentTimeMillis();
+            long timeMs = finish - start;
+            System.out.println("join = " + timeMs + "ms");
+        }
     }
 
     public Optional<Member> findOne(Long memberId){
